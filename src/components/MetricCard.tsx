@@ -27,24 +27,30 @@ export function MetricCard({
   isLoading,
 }: MetricCardProps) {
   return (
-    <Card>
-      <CardContent className="flex flex-col gap-1 pt-4">
+    <Card className="h-[140px]">
+      <CardContent className="flex flex-col gap-3 pt-4">
         {isLoading ? (
           <>
-            <Skeleton className="h-3 w-24" />
-            <Skeleton className="h-8 w-32 mt-1" />
-            <Skeleton className="h-3 w-28 mt-1" />
+            <Skeleton className="h-4 w-28" />
+            <Skeleton className="h-12 w-36" />
+            <Skeleton className="h-3 w-28" />
           </>
         ) : (
           <>
-            <span className="text-xs font-medium text-primary">{label}</span>
-            <div className="flex items-baseline gap-1">
-              <span className="text-3xl font-bold">{value ?? "—"}</span>
+            <span className="text-base font-semibold leading-none text-[#f97759]">
+              {label}
+            </span>
+            <div className="flex h-[48px] items-end gap-1">
+              <span className="text-5xl font-extrabold leading-none text-card-foreground">
+                {value ?? "—"}
+              </span>
               {unit && (
-                <span className="text-sm text-muted-foreground">{unit}</span>
+                <span className="pb-1 text-base font-medium text-muted-foreground">
+                  {unit}
+                </span>
               )}
             </div>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-sm text-muted-foreground">
               {date ? formatDate(date) : "—"}
             </span>
           </>

@@ -46,7 +46,7 @@ function SkeletonRows() {
           <TableCell>
             <Skeleton className="h-4 w-36" />
           </TableCell>
-          <TableCell>
+          <TableCell className="hidden sm:table-cell">
             <Skeleton className="h-4 w-36" />
           </TableCell>
           <TableCell>
@@ -74,7 +74,7 @@ export function MeasurementsTable() {
           <TableRow>
             <TableHead>Measurement</TableHead>
             <TableHead>Type</TableHead>
-            <TableHead>Date</TableHead>
+            <TableHead className="hidden sm:table-cell">Date</TableHead>
             <TableHead />
           </TableRow>
         </TableHeader>
@@ -87,10 +87,8 @@ export function MeasurementsTable() {
                 <TableCell className="font-medium">
                   {obs.value} {obs.unit}
                 </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {obs.display}
-                </TableCell>
-                <TableCell className="text-muted-foreground">
+                <TableCell>{obs.display}</TableCell>
+                <TableCell className="hidden sm:table-cell text-muted-foreground">
                   {formatDate(obs.effectiveDateTime)}
                 </TableCell>
                 <TableCell className="text-muted-foreground">...</TableCell>
