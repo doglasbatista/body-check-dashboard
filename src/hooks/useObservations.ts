@@ -5,6 +5,7 @@ import {
   fetchObservationsPage,
 } from "@/api/observations";
 import { getLatestPerType, calculateBmi } from "@/lib/fhir";
+
 import type { SortOrder } from "@/api/observations";
 import type { SummaryMetrics } from "@/types/observations";
 
@@ -20,12 +21,15 @@ export function useAllObservations() {
 }
 
 export function useSummaryMetrics(): SummaryMetrics & {
+  patientName: string | null;
   isLoading: boolean;
   isError: boolean;
 } {
   const { data, isLoading, isError } = useAllObservations();
 
-  const metrics = useMemo<SummaryMetrics>(() => {
+  const metrics = useMemo<
+    SummaryMetrics & { patientName: string | null }
+  >(() => {
     if (!data) {
       return {
         bodyLength: null,
@@ -34,10 +38,11 @@ export function useSummaryMetrics(): SummaryMetrics & {
         bloodPressure: null,
         heartRate: null,
         bmi: null,
+        patientName: null,
       };
     }
 
-    const latest = getLatestPerType(data);
+    const latest = getLatestPerType(data.observations);
 
     const bodyLength = latest["8302-2"] ?? null;
     const bodyWeight = latest["29463-7"] ?? null;
@@ -54,6 +59,7 @@ export function useSummaryMetrics(): SummaryMetrics & {
       bloodPressure: latest["55284-4"] ?? null,
       heartRate: latest["8867-4"] ?? null,
       bmi,
+      patientName: data.patientName,
     };
   }, [data]);
 

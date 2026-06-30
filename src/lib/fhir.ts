@@ -1,33 +1,33 @@
-import type { ObservationCode, ParsedObservation } from '@/types/observations'
+import type { ObservationCode, ParsedObservation } from "@/types/observations";
 
 const KNOWN_CODES = new Set<ObservationCode>([
-  '8302-2',
-  '29463-7',
-  '2708-6',
-  '55284-4',
-  '8867-4',
-  '2345-7',
-])
+  "8302-2",
+  "29463-7",
+  "2708-6",
+  "55284-4",
+  "8867-4",
+  "2345-7",
+]);
 
 function isObservationCode(code: string): code is ObservationCode {
-  return KNOWN_CODES.has(code as ObservationCode)
+  return KNOWN_CODES.has(code as ObservationCode);
 }
 
 export function parseBundle(bundle: fhir4.Bundle): ParsedObservation[] {
-  if (!bundle.entry) return []
+  if (!bundle.entry) return [];
 
-  const results: ParsedObservation[] = []
+  const results: ParsedObservation[] = [];
 
   for (const entry of bundle.entry) {
-    const resource = entry.resource
-    if (!resource || resource.resourceType !== 'Observation') continue
+    const resource = entry.resource;
+    if (!resource || resource.resourceType !== "Observation") continue;
 
-    const obs = resource as fhir4.Observation
-    const loincCode = obs.code?.coding?.[0]?.code
-    const display = obs.code?.coding?.[0]?.display
-    const value = obs.valueQuantity?.value
-    const unit = obs.valueQuantity?.unit
-    const effectiveDateTime = obs.effectiveDateTime
+    const obs = resource as fhir4.Observation;
+    const loincCode = obs.code?.coding?.[0]?.code;
+    const display = obs.code?.coding?.[0]?.display;
+    const value = obs.valueQuantity?.value;
+    const unit = obs.valueQuantity?.unit;
+    const effectiveDateTime = obs.effectiveDateTime;
 
     if (
       !loincCode ||
@@ -37,7 +37,7 @@ export function parseBundle(bundle: fhir4.Bundle): ParsedObservation[] {
       !effectiveDateTime ||
       !display
     ) {
-      continue
+      continue;
     }
 
     results.push({
@@ -47,28 +47,33 @@ export function parseBundle(bundle: fhir4.Bundle): ParsedObservation[] {
       value,
       unit,
       effectiveDateTime,
-    })
+    });
   }
 
-  return results
+  return results;
 }
 
 export function getLatestPerType(
   observations: ParsedObservation[],
 ): Partial<Record<ObservationCode, ParsedObservation>> {
-  const latest: Partial<Record<ObservationCode, ParsedObservation>> = {}
+  const latest: Partial<Record<ObservationCode, ParsedObservation>> = {};
 
   for (const obs of observations) {
-    const current = latest[obs.code]
+    const current = latest[obs.code];
     if (!current || obs.effectiveDateTime > current.effectiveDateTime) {
-      latest[obs.code] = obs
+      latest[obs.code] = obs;
     }
   }
 
-  return latest
+  return latest;
 }
 
 export function calculateBmi(weightKg: number, heightCm: number): number {
-  const heightM = heightCm / 100
-  return weightKg / (heightM * heightM)
+  const heightM = heightCm / 100;
+  return weightKg / (heightM * heightM);
+}
+
+export function getPatientName(bundle: fhir4.Bundle): string | null {
+  const resource = bundle.entry?.[0]?.resource as fhir4.Observation | undefined;
+  return resource?.subject?.display ?? null;
 }

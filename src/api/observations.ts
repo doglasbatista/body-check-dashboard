@@ -1,4 +1,4 @@
-import { parseBundle } from "@/lib/fhir";
+import { parseBundle, getPatientName } from "@/lib/fhir";
 import type { ParsedObservation } from "@/types/observations";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
@@ -26,10 +26,13 @@ async function fetchBundle(
 export async function fetchAllObservations(
   count: number,
   sort: SortOrder,
-): Promise<ParsedObservation[]> {
+): Promise<{ observations: ParsedObservation[]; patientName: string | null }> {
   const bundle = await fetchBundle({ count, sort });
 
-  return parseBundle(bundle);
+  return {
+    observations: parseBundle(bundle),
+    patientName: getPatientName(bundle),
+  };
 }
 
 export async function fetchObservationsPage(
