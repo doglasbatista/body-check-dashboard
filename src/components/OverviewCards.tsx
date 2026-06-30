@@ -1,5 +1,6 @@
 import { useSummaryMetrics } from "@/hooks/useObservations";
 import { MetricCard } from "@/components/MetricCard";
+import { roundBmi } from "@/lib/format";
 
 export function OverviewCards() {
   const {
@@ -30,7 +31,7 @@ export function OverviewCards() {
       />
       <MetricCard
         label="Body Mass Index"
-        value={bmi !== null ? Math.round(bmi * 10) / 10 : null}
+        value={bmi !== null ? roundBmi(bmi) : null}
         unit=""
         date={bodyWeight?.effectiveDateTime ?? null}
         isLoading={isLoading}

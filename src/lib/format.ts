@@ -1,3 +1,7 @@
+export function roundBmi(bmi: number): number {
+  return Math.round(bmi * 10) / 10;
+}
+
 // "12 Apr 2018 10:00" — used in metric cards
 export function formatDateShort(iso: string): string {
   return new Intl.DateTimeFormat("en-GB", {
