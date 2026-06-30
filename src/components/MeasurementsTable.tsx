@@ -10,22 +10,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useObservationsPage } from "@/hooks/useObservations";
+import { formatDateFull } from "@/lib/format";
 import type { ParsedObservation } from "@/types/observations";
 
 const PAGE_SIZE = 10;
-
-function formatDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  })
-    .format(new Date(iso))
-    .replace(",", "");
-}
 
 function sortByDateDesc(
   observations: ParsedObservation[],
@@ -89,7 +77,7 @@ export function MeasurementsTable() {
                 </TableCell>
                 <TableCell>{obs.display}</TableCell>
                 <TableCell className="hidden sm:table-cell text-muted-foreground">
-                  {formatDate(obs.effectiveDateTime)}
+                  {formatDateFull(obs.effectiveDateTime)}
                 </TableCell>
                 <TableCell className="text-muted-foreground">...</TableCell>
               </TableRow>

@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatDateShort } from "@/lib/format";
 
 interface MetricCardProps {
   label: string;
@@ -7,16 +8,6 @@ interface MetricCardProps {
   unit: string;
   date: string | null;
   isLoading: boolean;
-}
-
-function formatDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(iso));
 }
 
 export function MetricCard({
@@ -51,7 +42,7 @@ export function MetricCard({
               )}
             </div>
             <span className="text-sm text-muted-foreground">
-              {date ? formatDate(date) : "—"}
+              {date ? formatDateShort(date) : "—"}
             </span>
           </>
         )}
