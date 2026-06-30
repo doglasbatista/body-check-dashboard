@@ -47,35 +47,37 @@ export function MeasurementsTable() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-base font-semibold">Latest measurements</h2>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Measurement</TableHead>
-            <TableHead>Type</TableHead>
-            <TableHead className="hidden sm:table-cell">Date</TableHead>
-            <TableHead />
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {isLoading ? (
-            <SkeletonRows />
-          ) : (
-            observations.map((obs) => (
-              <TableRow key={obs.id}>
-                <TableCell className="font-medium">
-                  {obs.value} {obs.unit}
-                </TableCell>
-                <TableCell>{obs.display}</TableCell>
-                <TableCell className="hidden sm:table-cell text-muted-foreground">
-                  {formatDateFull(obs.effectiveDateTime)}
-                </TableCell>
-                <TableCell className="text-muted-foreground">...</TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
+      <h2 className="text-2xl font-bold text-gray-900">Latest measurements</h2>
+      <div className="rounded-xl bg-white ring-1 ring-foreground/10 overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Measurement</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead className="hidden sm:table-cell">Date</TableHead>
+              <TableHead />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading ? (
+              <SkeletonRows />
+            ) : (
+              observations.map((obs) => (
+                <TableRow key={obs.id}>
+                  <TableCell className="font-medium">
+                    {obs.value} {obs.unit}
+                  </TableCell>
+                  <TableCell>{obs.display}</TableCell>
+                  <TableCell className="hidden sm:table-cell text-muted-foreground">
+                    {formatDateFull(obs.effectiveDateTime)}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">...</TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
       <div className="flex justify-end gap-2">
         <Button
           variant="outline"
