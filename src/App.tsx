@@ -1,9 +1,9 @@
 import { OverviewCards } from "@/components/OverviewCards";
 import { MeasurementsTable } from "@/components/MeasurementsTable";
-import { useSummaryMetrics } from "@/hooks/useObservations";
+import { usePatientName } from "@/hooks/useObservations";
 
 function App() {
-  const { patientName } = useSummaryMetrics();
+  const patientName = usePatientName();
 
   return (
     <div className="min-h-screen bg-[#eeeff0]">

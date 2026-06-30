@@ -20,15 +20,12 @@ export function useAllObservations() {
 }
 
 export function useSummaryMetrics(): SummaryMetrics & {
-  patientName: string | null;
   isLoading: boolean;
   isError: boolean;
 } {
   const { data, isLoading, isError } = useAllObservations();
 
-  const metrics = useMemo<
-    SummaryMetrics & { patientName: string | null }
-  >(() => {
+  const metrics = useMemo<SummaryMetrics>(() => {
     if (!data) {
       return {
         bodyLength: null,
@@ -37,7 +34,6 @@ export function useSummaryMetrics(): SummaryMetrics & {
         bloodPressure: null,
         heartRate: null,
         bmi: null,
-        patientName: null,
       };
     }
 
@@ -58,11 +54,15 @@ export function useSummaryMetrics(): SummaryMetrics & {
       bloodPressure: latest["55284-4"] ?? null,
       heartRate: latest["8867-4"] ?? null,
       bmi,
-      patientName: data.patientName,
     };
   }, [data]);
 
   return { ...metrics, isLoading, isError };
+}
+
+export function usePatientName(): string | null {
+  const { data } = useAllObservations();
+  return data?.patientName ?? null;
 }
 
 export function useObservationsPage(page: number, pageSize: number) {
