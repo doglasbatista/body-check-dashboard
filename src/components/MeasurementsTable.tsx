@@ -11,17 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useObservationsPage } from "@/hooks/useObservations";
 import { formatDateFull } from "@/lib/format";
-import type { ParsedObservation } from "@/types/observations";
 
 const PAGE_SIZE = 10;
-
-function sortByDateDesc(
-  observations: ParsedObservation[],
-): ParsedObservation[] {
-  return [...observations].sort((a, b) =>
-    b.effectiveDateTime.localeCompare(a.effectiveDateTime),
-  );
-}
 
 function SkeletonRows() {
   return (
@@ -50,7 +41,7 @@ export function MeasurementsTable() {
   const [page, setPage] = useState(1);
   const { data, isLoading } = useObservationsPage(page, PAGE_SIZE);
 
-  const observations = data ? sortByDateDesc(data.observations) : [];
+  const observations = data?.observations ?? [];
   const total = data?.total ?? 0;
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
