@@ -1,4 +1,5 @@
 import { OverviewCards } from "@/components/OverviewCards";
+import { MeasurementsTable } from "@/components/MeasurementsTable";
 import { useSummaryMetrics } from "@/hooks/useObservations";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <p className="text-sm text-muted-foreground">{patientName}</p>
         </header>
         <OverviewCards />
+        <MeasurementsTable />
       </div>
     </div>
   );
