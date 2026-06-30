@@ -9,13 +9,12 @@ import { getLatestPerType, calculateBmi } from "@/lib/fhir";
 import type { SortOrder } from "@/api/observations";
 import type { SummaryMetrics } from "@/types/observations";
 
-const ALL_OBSERVATIONS_COUNT = 800;
 const DEFAULT_SORT: SortOrder = "desc";
 
 export function useAllObservations() {
   return useQuery({
     queryKey: ["observations", "all"],
-    queryFn: () => fetchAllObservations(ALL_OBSERVATIONS_COUNT, DEFAULT_SORT),
+    queryFn: () => fetchAllObservations(DEFAULT_SORT),
     staleTime: Infinity,
   });
 }

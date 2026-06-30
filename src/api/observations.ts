@@ -5,6 +5,8 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
 export type SortOrder = "asc" | "desc" | "random";
 
+const FETCH_ALL_COUNT = 20;
+
 async function fetchBundle(
   params: Record<string, string | number>,
 ): Promise<fhir4.Bundle> {
@@ -24,10 +26,9 @@ async function fetchBundle(
 }
 
 export async function fetchAllObservations(
-  count: number,
   sort: SortOrder,
 ): Promise<{ observations: ParsedObservation[]; patientName: string | null }> {
-  const bundle = await fetchBundle({ count, sort });
+  const bundle = await fetchBundle({ count: FETCH_ALL_COUNT, sort });
 
   return {
     observations: parseBundle(bundle),
