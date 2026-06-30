@@ -69,5 +69,6 @@ export function useObservationsPage(page: number, pageSize: number) {
   return useQuery({
     queryKey: ["observations", "page", page, pageSize],
     queryFn: () => fetchObservationsPage(page, pageSize, DEFAULT_SORT),
+    staleTime: Infinity,
   });
 }
