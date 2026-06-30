@@ -5,8 +5,8 @@ import {
   fetchObservationsPage,
 } from "@/api/observations";
 import { getLatestPerType, calculateBmi } from "@/lib/fhir";
-
 import type { SortOrder } from "@/api/observations";
+import { LOINC } from "@/types/observations";
 import type { SummaryMetrics } from "@/types/observations";
 
 const DEFAULT_SORT: SortOrder = "desc";
@@ -39,8 +39,8 @@ export function useSummaryMetrics(): SummaryMetrics & {
 
     const latest = getLatestPerType(data.observations);
 
-    const bodyLength = latest["8302-2"] ?? null;
-    const bodyWeight = latest["29463-7"] ?? null;
+    const bodyLength = latest[LOINC.BODY_LENGTH] ?? null;
+    const bodyWeight = latest[LOINC.BODY_WEIGHT] ?? null;
 
     const bmi =
       bodyWeight && bodyLength
@@ -50,9 +50,9 @@ export function useSummaryMetrics(): SummaryMetrics & {
     return {
       bodyLength,
       bodyWeight,
-      bloodSaturation: latest["2708-6"] ?? null,
-      bloodPressure: latest["55284-4"] ?? null,
-      heartRate: latest["8867-4"] ?? null,
+      bloodSaturation: latest[LOINC.BLOOD_OXYGEN_SATURATION] ?? null,
+      bloodPressure: latest[LOINC.BLOOD_PRESSURE] ?? null,
+      heartRate: latest[LOINC.HEART_RATE] ?? null,
       bmi,
     };
   }, [data]);

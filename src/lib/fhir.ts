@@ -1,13 +1,7 @@
+import { LOINC } from "@/types/observations";
 import type { ObservationCode, ParsedObservation } from "@/types/observations";
 
-const KNOWN_CODES = new Set<ObservationCode>([
-  "8302-2",
-  "29463-7",
-  "2708-6",
-  "55284-4",
-  "8867-4",
-  "2345-7",
-]);
+const KNOWN_CODES = new Set<ObservationCode>(Object.values(LOINC));
 
 function isObservationCode(code: string): code is ObservationCode {
   return KNOWN_CODES.has(code as ObservationCode);
