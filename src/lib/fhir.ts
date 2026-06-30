@@ -68,6 +68,10 @@ export function calculateBmi(weightKg: number, heightCm: number): number {
 }
 
 export function getPatientName(bundle: fhir4.Bundle): string | null {
-  const resource = bundle.entry?.[0]?.resource as fhir4.Observation | undefined;
-  return resource?.subject?.display ?? null;
+  for (const entry of bundle.entry ?? []) {
+    const display = (entry.resource as fhir4.Observation | undefined)?.subject
+      ?.display;
+    if (display) return display;
+  }
+  return null;
 }
